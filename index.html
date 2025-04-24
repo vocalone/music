@@ -1,0 +1,54 @@
+<script>
+    document.getElementById("songForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const form = event.target;
+      const button = form.querySelector(".submit-button");
+      const loader = button.querySelector(".loader");
+      const buttonText = button.querySelector(".button-text");
+
+      // Validación
+      const nombre = document.getElementById("nombre").value.trim();
+      const historia = document.getElementById("historia").value.trim();
+      const relacion = document.getElementById("relacion").value.trim();
+      
+      if (!nombre || !historia || !relacion) {
+        alert("Complete los campos obligatorios");
+        return;
+      }
+
+      // Mostrar loader
+      buttonText.style.display = "none";
+      loader.style.display = "block";
+      button.disabled = true;
+
+      // Construir mensaje
+      const datos = {
+        nombre: nombre,
+        edad: document.getElementById("edad").value || "No especificada",
+        fecha: document.getElementById("fecha").value || "No especificada",
+        relacion: relacion,
+        historia: historia,
+        estilo: document.getElementById("estilo").value || "Sin preferencia"
+      };
+
+      const mensaje = `🎵 *SOLICITUD DE CANCIÓN* 🎵%0A%0A
+*1. Persona:* ${datos.nombre}%0A
+*2. Edad:* ${datos.edad}%0A
+*3. Fecha:* ${datos.fecha}%0A
+*4. Relación:* ${datos.relacion}%0A
+*5. Frases:* ${datos.historia}%0A
+*6. Estilo:* ${datos.estilo}`;
+
+      // Abrir WhatsApp inmediatamente (sin setTimeout)
+      const whatsappURL = `https://wa.me/5493435066336?text=${encodeURIComponent(mensaje)}`;
+      window.location.href = whatsappURL;
+      
+      // Resetear formulario después de 1s
+      setTimeout(() => {
+        form.reset();
+        buttonText.style.display = "block";
+        loader.style.display = "none";
+        button.disabled = false;
+      }, 1000);
+    });
+</script>
